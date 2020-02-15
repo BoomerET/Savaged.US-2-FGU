@@ -4,7 +4,8 @@
 }
 
 body {
-    background-color: rgb(43, 226, 134);
+    /* background-color: rgb(43, 226, 134); */
+    background-color: #89cff0;
     background-repeat: no-repeat;
     background-size: cover;
 }
