@@ -1,0 +1,22 @@
+#header {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+body {
+    background-color: rgb(43, 226, 134);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#container { 
+    min-height:100%; 
+    padding-bottom:40px; 
+    margin-bottom:-40px; 
+}
+
+footer {
+    position: fixed;  bottom: 0;
+    width: 100%;
+    display: block;
+}
