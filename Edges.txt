@@ -1,0 +1,137 @@
+Alertness: 171
+Ambidextrous: 172
+Arcane Background: 173
+Arcane Resistance: 174
+Improved Arcane Resistance: 175
+Aristocrat: 176
+Attractive: 177
+Very Attractive: 178
+Berserk: 179
+Brave: 180
+Brawny: 181
+Brute: 182
+Charismatic: 183
+Elan: 184
+Fame: 185
+Famous: 186
+Fleet-Footed: 187
+Linguist: 188
+Luck: 189
+Great Luck: 190
+Quick: 191
+Rich: 192
+Filthy Rich: 193
+Fast Healer: 194
+Block: 195
+Improved Block: 196
+Brawler: 197
+Bruiser: 198
+Calculating: 199
+Combat Reflexes: 200
+Counterattack: 201
+Improved Counterattack: 202
+Dead Shot: 203
+Dodge: 204
+Improved Dodge: 205
+Double Tap: 206
+Extraction: 207
+Improved Extraction: 208
+Feint: 209
+First Strike: 210
+Improved First Strike: 211
+Free Runner: 212
+Frenzy: 213
+Improved Frenzy: 214
+Giant Killer: 215
+Hard to Kill: 216
+Harder to Kill: 217
+Improvisational Fighter: 218
+Iron Jaw: 219
+Killer Instinct: 220
+Level Headed: 221
+Improved Elvel Headed: 222
+Marksman: 223
+Martial Artist: 224
+Martial Warrior: 225
+Mighty Blow: 226
+Nerves of Steel: 227
+Improved Nerves of Steel: 228
+No Mercy: 229
+UNKNOWN: 
+UNKNOWN: 
+Rapid Fire: 232
+Improved Rapid Fire: 233
+Rock and Roll!: 234
+Steady Hands: 235
+Sweep: 236
+Improved Sweep: 237
+Trademark Weapon: 238
+Improved Trademark Weapon: 239
+Two-Fisted: 240
+Two-Gun Kid: 241
+Command: 242
+Command Presence: 243
+Fervor: 244
+Hold the Line: 245
+Inspire: 246
+Natural Leader: 247
+Tactician: 248
+Master Tactician: 249
+Artificer: 250
+Channeling: 251
+Concentration: 252
+Extra Effort: 253
+Gadgeteer: 254
+Hold/Unholy Warrior: 255
+Mentalist: 256
+New Powers: 257
+Power Points: 258
+Rapid Recharge: 259
+Improved Rapid Recharge: 260
+Soul Drain: 261
+Power Surge: 262
+Wizard: 263
+Bolster: 264
+Common Bond: 265
+Connections: 266
+Humiliate: 267
+Menacing: 268
+Provoke: 269
+Retort: 270
+Streetwise: 271
+Strong Willed: 272
+Iron Will: 273
+Work the Room: 274
+Work the Crowd: 275
+Beast Bond: 276
+Beast Master: 277
+Champion: 278
+Chi: 279
+Danger Sense: 280 
+Healer: 281
+Liquid Courage: 282 
+Scavenger: 283
+Followers: 284
+Professional: 285
+Expert: 286
+Master: 287
+Sidekick: 288
+Tough as Nails: 289
+Tougher than Nails: 290
+Weapon Master: 291
+Master of Arms: 292
+Ace: 293
+Acrobat: 294
+Investigator: 295
+Assassin: 296
+Jack-of-all-Trades: 297
+McGyver: 298
+Mr. Fix It: 299
+Scholar: 300
+Thief: 301
+Woodsman: 302
+Soldier: 303
+UNKNOWN: 304
+Combat Acrobat: 305
+Rabble-Rouser: 342
+Reliable: 378

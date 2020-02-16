@@ -1,0 +1,58 @@
+Bad Eyes (Mjor/Minor): 102
+All Thumbs: 103
+Anemic: 104
+Arrogant: 105
+Bad Luck: 106
+Big Mouth: 107
+Blind: 108
+Bloodthirsty: 109
+Cant' Swim: 110
+Cautious: 111
+Clueless: 112
+Clumsy: 113
+Code of Honor: 114
+Curious: 115
+Death Wish: 116
+Delusional: 117 (Major/Minor w/ specify)
+Doubting Thomas: 118
+Driven: 119
+Elderly: 120
+Enemy: 121
+Greedy: 122
+Habit: 123
+Hard of Hearing: 124
+Heroic: 125
+Hesitant: 126
+Illiterate: 127
+Impulsive: 128
+Jealous: 129
+Loyal: 130
+Mean: 131
+Mild Mannered: 132 
+Mute: 133
+Obese: 134
+Obligation: 135
+One Arm: 136
+One Eye: 137
+Outsider: 138
+Overconfident: 139 
+Pacifist: 140
+Phobia: 141
+Poverty: 142
+Quirk: 143
+Ruthless: 144
+Secret: 145
+Shamed: 146
+Slow: 147
+Small: 148
+Stubborn: 149
+Suspicious: 150
+Thin Skinned: 194
+Tongue-Tied: 151
+Ugly: 152
+Vengeful: 153
+Vow: 154
+Wanted: 155
+Yellow: 156
+Young: 157
+
