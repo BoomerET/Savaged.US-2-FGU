@@ -24,7 +24,7 @@ var skillListDie = coreSkillsDie;
 
 var ourCharData = "";
 
-var fightDie = 4;
+var fightDie = -1;
 
 var savageData = [];
 var hindranceArray = [];
@@ -44,6 +44,14 @@ var edgeArray13 = [];
 var edgeArray14 = [];
 
 var savageEdges = [];
+
+var addAbilAg = 0;
+var addAbilSm = 0;
+var addAbilSp = 0;
+var addAbilSt = 0;
+var addAbilVi = 0;
+
+
 
 for(var y = 0; y < 19; y++) {
     savageData[y] = "";
@@ -84,7 +92,7 @@ edgeArray02 = ["Very Attractive","Berserk","Brave","Brawny","Brute","Charismatic
 edgeArray03 = ["Great Luck","Quick","Rich","Filthy Rich","Fast Healer","Block","Improved Block","Brawler","Bruiser","Calculating","Combat Reflexes"];
 edgeArray04 = ["Counterattack","Improved Counterattack","Dead Shot","Dodge","Improved Dodge","Double Tap","Extraction","Improved Extraction","Feint"];
 edgeArray05 = ["First Strike","Improved First Strike","Free Runner","Frenzy","Improved Frenzy","Giant Killer","Hard to Kill","Harder to Kill","Improvisational Fighter"];
-edgeArray06 = ["Iron Jaw","Killer Instinct","Level Headed","Improved Elvel Headed","Marksman","Martial Artist","Martial Warrior","Mighty Blow","Nerves of Steel"];
+edgeArray06 = ["Iron Jaw","Killer Instinct","Level Headed","Improved Level Headed","Marksman","Martial Artist","Martial Warrior","Mighty Blow","Nerves of Steel"];
 edgeArray07 = ["Improved Nerves of Steel","No Mercy","UNKNOWN","UNKNOWN","Rapid Fire","Improved Rapid Fire","Rock and Roll!","Steady Hands","Sweep","Improved Sweep"];
 edgeArray08 = ["Trademark Weapon","Improved Trademark Weapon","Two-Fisted","Two-Gun Kid","Command","Command Presence","Fervor","Hold the Line","Inspire"];
 edgeArray09 = ["Natural Leader","Tactician","Master Tactician","Artificer","Channeling","Concentration","Extra Effort","Gadgeteer","Holy/Unholy Warrior","Mentalist"];
@@ -92,7 +100,7 @@ edgeArray10 = ["New Powers","Power Points","Rapid Recharge","Improved Rapid Rech
 edgeArray11 = ["Humiliate","Menacing","Provoke","Retort","Streetwise","Strong Willed","Iron Will","Work the Room","Work the Crowd","Beast Bond","Beast Master"];
 edgeArray12 = ["Champion","Chi","Danger Sense","Healer","Liquid Courage","Scavenger","Followers","Professional","Expert","Master","Sidekick","Tough as Nails"];
 edgeArray13 = ["Tougher than Nails","Weapon Master","Master of Arms","Ace","Acrobat","Investigator","Assassin","Jack-of-all-Trades","McGyver","Mr. Fix It","Scholar"];
-edgeArray14 = ["Thief","Woodsman","Soldier","UNKNOWN","Combat Acrobat"];
+edgeArray14 = ["Thief","Woodsman","Soldier","Gadgeteer","Combat Acrobat"];
 
 let savageEdgesFinal = [...savageEdges, ...edgeArray01, ...edgeArray02, ...edgeArray03, ...edgeArray04, ...edgeArray05, ...edgeArray06, ...edgeArray07, ...edgeArray08, ...edgeArray09, ...edgeArray10, ...edgeArray11, ...edgeArray12, ...edgeArray13, ...edgeArray14];
 for (v = 306; v < 342; v++) {
@@ -103,6 +111,8 @@ for(u = 343; u < 378; u++) {
     savageEdgesFinal[u] = "UNKNOWN";
 }
 savageEdgesFinal.push("Reliable");
+
+//console.log(savageEdgesFinal);
 
 $(function() {
     //console.log("Index of thin skinned: " +savageData.indexOf("Thin Skinned"));
@@ -152,6 +162,28 @@ $(function() {
                      ourCharData = $.parseJSON(characters[key].data);
                 }
             }
+            $.each(ourCharData.advancements, function(charIdx, charAdv) {
+                //console.log(charAdv.type);
+                if (charAdv.type == "attribute") {
+                    if (charAdv.target1 == "agility") {
+                        addAbilAg += 1;
+                    } else if (charAdv.target1 == "smarts") {
+                        addAbilSm += 1;
+                    } else if (charAdv.target1 == "spirit") {
+                        addAbilSp += 1;
+                    } else if (charAdv.target1 == "strength") {
+                        addAbilSt += 1;
+                    } else if (charAdv.target1 == "vigor") {
+                        addAbilVi += 1;
+                    }
+                } else if (charAdv.type == 'raise_skill_above') {
+                    // skillList hasn't been populated yet.
+                } else if (charAdv.type == 'edge') {
+                    
+                } else if (charAdv.type == 'swade_raise_skills_below') {
+
+                }
+            });
             $.each(ourCharData.attribute_assignments, function( index, value) {
                 var popValue = value;
                 if ((ourCharData.race == 50 || ourCharData.race == 55) && index == "agility") {
@@ -161,9 +193,13 @@ $(function() {
                 } else if (ourCharData.race == 54 && index == "spirit") {
                     popValue = value + 1;
                 }
+                if (index == "agility") {
+                    popValue += addAbilAg;
+                }
                 buildXML += "\t\t<" + index + " type=\"dice\">" + diceNum[popValue] + "</" + index + ">\n";
             });
             buildXML += "\t\t<name type=\"string\">" + ourCharData.name + "</name>\n";
+            buildXML += "\t\t<advances type=\"number\">" + ourCharData.advancement_count + "</advances>\n";
             
             
             //var skillValue = 0;
@@ -183,6 +219,9 @@ $(function() {
             var skillCount = 1;
             buildXML += "\t\t<skills>\n";
             for (var x = 0; x < skillList.length; x++) {
+                if (skillList[x] == "Fighting") {
+                    fightDie =  (2 * parseInt(skillListDie[x]) + 4);
+                }
                 thisIteration = pad(skillCount, 5);
                 buildXML += "\t\t\t<id-" + thisIteration + ">\n";
                 buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
@@ -201,7 +240,11 @@ $(function() {
             buildXML += "\t\t</skills>\n";
 
             buildXML += "\t\t<pace type=\"number\">6</pace>\n";
-            buildXML += "\t\t<parry type=\"number\">" + (2 + Math.floor(fightDie / 2)) + "</parry>\n";
+            if (fightDie == -1) {
+                buildXML += "\t\t<parry type=\"number\">2</parry>\n";
+            } else {
+                buildXML += "\t\t<parry type=\"number\">" + (2 + Math.floor(fightDie / 2)) + "</parry>\n";
+            }
             buildXML += "\t\t<description type=\"string\">" + ourCharData.description + "</description>\n";
 
             switch(ourCharData.race) {
@@ -316,7 +359,7 @@ $(function() {
             buildXML += "\t\t</edges>\n";
         }
         finalXML += startXML + buildXML + endXML;
-        //console.log(finalXML);
+        
         $('#textHere').val(finalXML);
         pcFilename = ourCharData.name.replace(/\W/g, '');
         $("#dlChar").jqxButton({ disabled: false });
@@ -370,8 +413,9 @@ function pad(num, size) {
 function fixSkillName(badString) {
     if(badString == "" || badString == null) {
         return "";
+    } else {
+        return badString.replace(/[^a-zA-Z0-9+]+/gi, '');
     }
-    return badString.replace(/[^a-zA-Z0-9+]+/gi, '');
 }
 
 function invokeSaveAsDialog(file, fileName) {
