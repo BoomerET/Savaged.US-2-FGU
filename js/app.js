@@ -96,6 +96,10 @@ var armCoversLegs = {};
 var armCoversFace = {};
 var armCoversHead = {};
 var armCoversTorso = {};
+var armShieldParry = {};
+var armShieldCover = {};
+
+
 var armTotalProt = 0;
 
 for(var y = 0; y < 19; y++) {
@@ -304,6 +308,8 @@ function generateXML() {
             armCoversFace[aName.id] = aName.covers_face;
             armCoversHead[aName.id] = aName.covers_head;
             armCoversTorso[aName.id] = aName.covers_torso;
+            armShieldParry[aName.id] = aName.shield_parry_bonus;
+            armShieldCover[aName.id] = aName.shield_cover_vs_ranged;
         }
     });
 
@@ -692,6 +698,9 @@ function generateXML() {
             buildXML += "\t\t\t\t<protection type=\"number\">" + armValue[arname.id] + "</protection>\n";
         } else {
             // FIXME, add parry/cover for shield.
+            var tempNotes = "";
+            tempNotes += "[Parry +" + armShieldParry[arname.id] + ", Cover +" + Math.abs(armShieldCover[arname.id]) + "]\n";
+            buildXML += "\t\t\t\t<notes type=\"string\">" + tempNotes + "</notes>\n";
         }
         buildXML += "\t\t\t</id-" + thisIteration + ">\n";
         armCount += 1;
