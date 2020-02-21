@@ -627,6 +627,9 @@ function generateXML() {
     });
     buildXML += "\t\t</weaponlist>\n";
 
+
+    // FIXME: Shield does not count towards toughness
+
     var armCount = 1;
     buildXML += "\t\t<armorlist>\n";
     $.each(ourCharData.armor_purchased, function(ardex, arname) {
@@ -685,7 +688,11 @@ function generateXML() {
         buildXML += "\t\t\t\t<modifications />\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + armName[arname.id] + "</name>\n";
         buildXML += "\t\t\t\t<weight type=\"number\">" + armWeight[arname.id] + "</weight>\n";
-        buildXML += "\t\t\t\t<protection type=\"number\">" + armValue[arname.id] + "</protection>\n";
+        if (armShield[arname.id] != true) {
+            buildXML += "\t\t\t\t<protection type=\"number\">" + armValue[arname.id] + "</protection>\n";
+        } else {
+            // FIXME, add parry/cover for shield.
+        }
         buildXML += "\t\t\t</id-" + thisIteration + ">\n";
         armCount += 1;
     });
@@ -702,7 +709,28 @@ function generateXML() {
 	buildXML += "\t\t\t<limit type=\"number\">" + encLimit + "</limit>\n";
 	buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
 	buildXML += "\t\t\t<loadstr type=\"number\">2</loadstr>\n";
-	buildXML += "\t\t</encumbrance>\n";
+    buildXML += "\t\t</encumbrance>\n";
+    
+    buildXML += "\t\t<bonuslist>\n";
+    buildXML += "\t\t\t<agility>\n";
+    buildXML += "\t\t\t</agility>\n";
+    buildXML += "\t\t\t<armor>\n";
+    buildXML += "\t\t\t</armor>\n";
+    buildXML += "\t\t\t<pace>\n";
+    buildXML += "\t\t\t</pace>\n";
+    buildXML += "\t\t\t<parry>\n";
+    buildXML += "\t\t\t</parry>\n";
+    buildXML += "\t\t\t<smarts>\n";
+    buildXML += "\t\t\t</smarts>\n";
+    buildXML += "\t\t\t<spirit>\n";
+    buildXML += "\t\t\t</spirit>\n";
+    buildXML += "\t\t\t<strength>\n";
+    buildXML += "\t\t\t</strength>\n";
+    buildXML += "\t\t\t<toughness>\n";
+    buildXML += "\t\t\t</toughness>\n";
+    buildXML += "\t\t\t<vigor>\n";
+    buildXML += "\t\t\t</vigor>\n";
+    buildXML += "\t\t</bonuslist>\n";
 
 
     finalXML += startXML + buildXML + endXML;
