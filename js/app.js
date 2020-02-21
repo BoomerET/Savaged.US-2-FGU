@@ -13,7 +13,7 @@ var startXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 startXML += "<root version=\"4\" dataversion=\"20200203\" release=\"5.1|CoreRPG:4\">\n";
 startXML += "\t<character>\n";
 var endXML = "\t</character>\n";
-endXML += "</root>\n";
+endXML += "</root>";
 
 var buildXML = "";
 var finalXML = "";
@@ -54,6 +54,9 @@ var savageEdges = [];
 //var addAbilSt = 0;
 //var addAbilVi = 0;
 
+var encLimit = 0;
+var encLoad = 0;
+
 var addAbilagility = 0;
 var addAbilsmarts = 0;
 var addAbilspirit = 0;
@@ -78,6 +81,19 @@ var weapThrown = {};
 var weapRange = {};
 var weapReach = {};
 var weapRof = {};
+
+var armName = {};
+var armType = {};
+var armWeight = {};
+var armShield = {};
+var armValue = {};
+var armMinStr = {};
+var armCost = {};
+var armCoversArms = {};
+var armCoversLegs = {};
+var armCoversFace = {};
+var armCoversHead = {};
+var armCoversTorso = {};
 
 for(var y = 0; y < 19; y++) {
     savageData[y] = "";
@@ -175,7 +191,7 @@ $(function() {
     $('#popChars').on('change', function (event) {
         $('#textHere').val("");
         buildXML = "";
-        finalXML = ""
+        finalXML = "";
         var args = event.args;
         if (args) {
             var item = args.item;
@@ -271,71 +287,22 @@ function generateXML() {
         }
     });
 
-    // Parse gear
-    var gearCount = 1;
-    buildXML += "\t\t<invlist>\n";
-    $.each(ourCharData.gear_purchased, function(gpdex, gpname) {
-        thisIteration = pad(gearCount, 5);
-        buildXML += "\t\t\t<id-" + thisIteration + ">\n";
-        buildXML += "\t\t\t\t<name type=\"string\">" + fixGear(gearName[gpname.id]) + "</name>\n";
-        buildXML += "\t\t\t\t<cost type=\"string\">" + gearCost[gpname.id] + "</cost>\n";
-        buildXML += "\t\t\t\t<group type=\"string\">" + gearGroup[gpname.id] + "</group>\n";
-        buildXML += "\t\t\t\t<weight type=\"number\">" + gearWeight[gpname.id] + "</weight>\n";
-        buildXML += "\t\t\t\t<count type=\"number\">" + gpname.count_current + "</count>\n";
-        if (gpname.equipped == false) {
-            buildXML += "\t\t\t\t<carried type=\"number\">1</carried>\n";
-        } else {
-            buildXML += "\t\t\t\t<carried type=\"number\">2</carried>\n";
+    $.each(charGenData.armor, function(adex, aName) {
+        if (aName.book_id == 9) {
+            armName[aName.id] = aName.name;
+            armType[aName.id] = aName.type;
+            armValue[aName.id] = aName.armor_value;
+            armCost[aName.id] = aName.cost;
+            armMinStr[aName.id] = aName.minimum_strength;
+            armShield[aName.id] = aName.is_shield;
+            armWeight[aName.id] = aName.weight;
+            armCoversArms[aName.id] = aName.covers_arms;
+            armCoversLegs[aName.id] = aName.covers_legs;
+            armCoversFace[aName.id] = aName.covers_face;
+            armCoversHead[aName.id] = aName.covers_head;
+            armCoversTorso[aName.id] = aName.covers_torso;
         }
-        buildXML += "\t\t\t\t<isidentified type=\"number\">1</isidentified>\n";
-		buildXML += "\t\t\t\t<locked type=\"number\">0</locked>\n";
-        buildXML += "\t\t\t</id-" + thisIteration + ">\n";
-        gearCount += 1;
     });
-    buildXML += "\t\t</invlist>\n";
-
-    var weapCount = 1;
-    buildXML += "\t\t<weaponlist>\n";
-    $.each(ourCharData.weapons_purchased, function(wpdex, wpname) {
-        thisIteration = pad(weapCount, 5);
-        buildXML += "\t\t\t<id-" + thisIteration + ">\n";
-        buildXML += "\t\t\t\t<name type=\"string\">" + fixGear(weapName[wpname.id]) + "</name>\n";
-        buildXML += "\t\t\t\t<cost type=\"string\">" + weapCost[wpname.id] + "</cost>\n";
-        buildXML += "\t\t\t\t<group type=\"string\">" + weapGroup[wpname.id] + "</group>\n";
-        buildXML += "\t\t\t\t<weight type=\"number\">" + weapWeight[wpname.id] + "</weight>\n";
-        buildXML += "\t\t\t\t<count type=\"number\">" + wpname.count_current + "</count>\n";
-        if (wpname.equipped_primary == false && wpname.equipped_secondary == false) {
-            buildXML += "\t\t\t\t<carried type=\"number\">1</carried>\n";
-        } else {
-            buildXML += "\t\t\t\t<carried type=\"number\">2</carried>\n";
-        }
-        buildXML += "\t\t\t\t<damage type=\"string\">" + weapDamage[wpname.id] + "</damage>\n";
-        buildXML += "\t\t\t\t<isequipment type=\"number\">1</isequipment>\n";
-        //console.log(weapName[wpname.id] + ": " + weapMelee[wpname.id]);
-        if (weapMelee[wpname.id] == true) {
-            buildXML += "\t\t\t\t<traittype type=\"string\">Melee</traittype>\n";
-            buildXML += "\t\t\t\t<catname type=\"string\">Melee Weapon</catname>\n";
-            buildXML += "\t\t\t\t<damage type=\"string\">Str+" + weapDamage[wpname.id] + "</damage>\n";
-        } else if (weapThrown[wpname.id] == true) {
-            buildXML += "\t\t\t\t<traittype type=\"string\">Thrown</traittype>\n";
-            buildXML += "\t\t\t\t<catname type=\"string\">Thrown Weapon</catname>\n";
-            buildXML += "\t\t\t\t<range type=\"string\">" + weapRange[wpname.id] + "</range>\n";
-            buildXML += "\t\t\t\t<rof type=\"string\">" + weapRof[wpname.id] + "</rof>\n";
-            buildXML += "\t\t\t\t<damage type=\"string\">Str+" + weapDamage[wpname.id] + "</damage>\n";
-        } else {
-            buildXML += "\t\t\t\t<damage type=\"string\">" + weapDamage[wpname.id] + "</damage>\n";
-            buildXML += "\t\t\t\t<traittype type=\"string\">Ranged</traittype>\n";
-            buildXML += "\t\t\t\t<catname type=\"string\">Ranged Weapon</catname>\n";
-            buildXML += "\t\t\t\t<range type=\"string\">" + weapRange[wpname.id] + "</range>\n";
-            buildXML += "\t\t\t\t<rof type=\"string\">" + weapRof[wpname.id] + "</rof>\n";
-
-        }
-        buildXML += "\t\t\t\t<reach type=\"number\">" + weapReach[wpname.id] + "</reach>\n";
-        buildXML += "\t\t\t\t<minstr type=\"string\">" + weapMinStr[wpname.id] + "</minstr>\n";
-        buildXML += "\t\t\t</id-" + thisIteration + ">\n";
-        weapCount += 1;
-    });
-    buildXML += "\t\t</weaponlist>\n";
 
     $.each(ourCharData.skill_assignments, function(index, skill) {
         if (skillList.includes(skill.name)) {
@@ -404,6 +371,17 @@ function generateXML() {
             popValue += addAbilspirit;
         } else if (index == "strength") {
             popValue += addAbilstrength;
+            if (popValue == 0) {
+                encLimit = 20;
+            } else if (popValue == 1) {
+                encLimit = 40;
+            } else if (popValue == 2) {
+                encLimit = 60;
+            } else if (popValue == 3) {
+                encLimit = 80;
+            } else if (popValue == 4) {
+                encLimit = 100;
+            }
         } else if (index == "vigor") {
             popValue += addAbilviogor;
         }
@@ -419,7 +397,12 @@ function generateXML() {
     
     buildXML += "\t\t<name type=\"string\">" + ourCharData.name + "</name>\n";
     buildXML += "\t\t<advances type=\"number\">" + ourCharData.advancement_count + "</advances>\n";
-
+    buildXML += "\t\t<encumbered type=\"number\">1</encumbered>\n";
+    buildXML += "\t\t<encumbrance>\n";
+	buildXML += "\t\t\t<limit type=\"number\">" + encLimit + "</limit>\n";
+	buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
+	buildXML += "\t\t\t<loadstr type=\"number\">2</loadstr>\n";
+	buildXML += "\t\t</encumbrance>\n";
     
     var skillCount = 1;
     buildXML += "\t\t<skills>\n";
@@ -569,6 +552,122 @@ function generateXML() {
         edgeCount += 1;
     });
     buildXML += "\t\t</edges>\n";
+
+    // Parse gear
+    var gearCount = 1;
+    buildXML += "\t\t<invlist>\n";
+    $.each(ourCharData.gear_purchased, function(gpdex, gpname) {
+        thisIteration = pad(gearCount, 5);
+        
+        buildXML += "\t\t\t<id-" + thisIteration + ">\n";
+        buildXML += "\t\t\t\t<name type=\"string\">" + fixGear(gearName[gpname.id]) + "</name>\n";
+        buildXML += "\t\t\t\t<cost type=\"string\">" + gearCost[gpname.id] + "</cost>\n";
+        buildXML += "\t\t\t\t<group type=\"string\">" + gearGroup[gpname.id] + "</group>\n";
+        buildXML += "\t\t\t\t<weight type=\"number\">" + gearWeight[gpname.id] + "</weight>\n";
+        buildXML += "\t\t\t\t<count type=\"number\">" + gpname.count_current + "</count>\n";
+        if (gpname.equipped == false) {
+            buildXML += "\t\t\t\t<carried type=\"number\">1</carried>\n";
+            encLoad += gearWeight[gpname.id];
+        } else {
+            buildXML += "\t\t\t\t<carried type=\"number\">2</carried>\n";
+            encLoad += gearWeight[gpname.id];
+        }
+        buildXML += "\t\t\t\t<isidentified type=\"number\">1</isidentified>\n";
+		buildXML += "\t\t\t\t<locked type=\"number\">0</locked>\n";
+        buildXML += "\t\t\t</id-" + thisIteration + ">\n";
+        gearCount += 1;
+    });
+    buildXML += "\t\t</invlist>\n";
+
+    var weapCount = 1;
+    buildXML += "\t\t<weaponlist>\n";
+    $.each(ourCharData.weapons_purchased, function(wpdex, wpname) {
+        thisIteration = pad(weapCount, 5);
+        buildXML += "\t\t\t<id-" + thisIteration + ">\n";
+        buildXML += "\t\t\t\t<name type=\"string\">" + fixGear(weapName[wpname.id]) + "</name>\n";
+        buildXML += "\t\t\t\t<cost type=\"string\">" + weapCost[wpname.id] + "</cost>\n";
+        buildXML += "\t\t\t\t<group type=\"string\">" + weapGroup[wpname.id] + "</group>\n";
+        buildXML += "\t\t\t\t<weight type=\"number\">" + weapWeight[wpname.id] + "</weight>\n";
+        encLoad += weapWeight[wpname.id];
+        buildXML += "\t\t\t\t<count type=\"number\">" + wpname.count_current + "</count>\n";
+        if (wpname.equipped_primary == false && wpname.equipped_secondary == false) {
+            buildXML += "\t\t\t\t<carried type=\"number\">1</carried>\n";
+            encLoad +=  weapWeight[wpname.id];
+        } else {
+            buildXML += "\t\t\t\t<carried type=\"number\">2</carried>\n";
+            encLoad +=  weapWeight[wpname.id];
+        }
+        buildXML += "\t\t\t\t<damage type=\"string\">" + weapDamage[wpname.id] + "</damage>\n";
+        buildXML += "\t\t\t\t<isequipment type=\"number\">1</isequipment>\n";
+
+        if (weapMelee[wpname.id] == true) {
+            buildXML += "\t\t\t\t<traittype type=\"string\">Melee</traittype>\n";
+            buildXML += "\t\t\t\t<catname type=\"string\">Melee Weapon</catname>\n";
+            buildXML += "\t\t\t\t<damage type=\"string\">Str+" + weapDamage[wpname.id] + "</damage>\n";
+        } else if (weapThrown[wpname.id] == true) {
+            buildXML += "\t\t\t\t<traittype type=\"string\">Thrown</traittype>\n";
+            buildXML += "\t\t\t\t<catname type=\"string\">Thrown Weapon</catname>\n";
+            buildXML += "\t\t\t\t<range type=\"string\">" + weapRange[wpname.id] + "</range>\n";
+            buildXML += "\t\t\t\t<rof type=\"string\">" + weapRof[wpname.id] + "</rof>\n";
+            buildXML += "\t\t\t\t<damage type=\"string\">Str+" + weapDamage[wpname.id] + "</damage>\n";
+        } else {
+            buildXML += "\t\t\t\t<damage type=\"string\">" + weapDamage[wpname.id] + "</damage>\n";
+            buildXML += "\t\t\t\t<traittype type=\"string\">Ranged</traittype>\n";
+            buildXML += "\t\t\t\t<catname type=\"string\">Ranged Weapon</catname>\n";
+            buildXML += "\t\t\t\t<range type=\"string\">" + weapRange[wpname.id] + "</range>\n";
+            buildXML += "\t\t\t\t<rof type=\"string\">" + weapRof[wpname.id] + "</rof>\n";
+
+        }
+        buildXML += "\t\t\t\t<reach type=\"number\">" + weapReach[wpname.id] + "</reach>\n";
+        buildXML += "\t\t\t\t<minstr type=\"string\">" + weapMinStr[wpname.id] + "</minstr>\n";
+        buildXML += "\t\t\t</id-" + thisIteration + ">\n";
+        weapCount += 1;
+    });
+    buildXML += "\t\t</weaponlist>\n";
+
+    var armCount = 1;
+    buildXML += "\t\t<armorlist>\n";
+    $.each(ourCharData.armor_purchased, function(ardex, arname) {
+        
+        thisIteration = pad(armCount, 5);
+        buildXML += "\t\t\t<id-" + thisIteration + ">\n";
+        // Build what this covers
+        var armCovers = "";
+        if (armCoversArms[arname.id] == true) {
+            armCovers += "Arms; ";
+        }
+        if (armCoversFace[arname.id] == true) {
+            armCovers += "Face; ";
+        }
+        if (armCoversLegs[arname.id] == true) {
+            armCovers += "Legs; ";
+        }
+        if (armCoversTorso[arname.id] == true) {
+            armCovers += "Torso; ";
+        }
+        //console.log(armName[arname.id] + " covers: " + armCovers);
+        //console.log(armName[arname.id] + ": " + armCovers.substring(0, armCovers.length - 2));
+        if (armCovers != "") {
+            buildXML += "\t\t\t\t<areaprotected type=\"string\">" + armCovers.substring(0, armCovers.length - 2) + "</areaprotected>\n";
+        } else {
+            buildXML += "\t\t\t\t<areaprotected type=\"string\"></areaprotected>\n";
+        }
+        buildXML += "\t\t\t\t<carried type=\"number\">2</carried>\n";
+        buildXML += "\t\t\t\t<cost type=\"string\">" + armCost[arname.id] + "</cost>\n";
+        buildXML += "\t\t\t\t<count type=\"number\">" + arname.count_current + "</count>\n";
+        buildXML += "\t\t\t\t<encumbered type=\"number\">1</encumbered>\n";
+        buildXML += "\t\t\t\t<group type=\"string\">" + armType[arname.id].replace(/\&/g, "&amp;") + "</group>\n";
+        buildXML += "\t\t\t\t<minstr type=\"string\">" + armMinStr[arname.id] + "</minstr>\n";
+        buildXML += "\t\t\t\t<modifications />\n";
+        buildXML += "\t\t\t\t<name type=\"string\">" + armName[arname.id] + "</name>\n";
+        buildXML += "\t\t\t\t<weight type=\"number\">" + armWeight[arname.id] + "</weight>\n";
+        buildXML += "\t\t\t\t<protection type=\"number\">" + armValue[arname.id] + "</protection>\n";
+        buildXML += "\t\t\t</id-" + thisIteration + ">\n";
+        armCount += 1;
+    });
+    buildXML += "\t\t</armorlist>\n";
+
+
     finalXML += startXML + buildXML + endXML;
     
     $('#textHere').val(finalXML);
