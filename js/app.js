@@ -27,6 +27,7 @@ var charGenData = "";
 
 var fightDie = -1;
 var apiKey = "";
+var toughNess = 0;
 
 
 var savageData = [];
@@ -56,6 +57,7 @@ var savageEdges = [];
 
 var encLimit = 0;
 var encLoad = 0;
+var strDie = 0;
 
 var addAbilagility = 0;
 var addAbilsmarts = 0;
@@ -94,6 +96,7 @@ var armCoversLegs = {};
 var armCoversFace = {};
 var armCoversHead = {};
 var armCoversTorso = {};
+var armTotalProt = 0;
 
 for(var y = 0; y < 19; y++) {
     savageData[y] = "";
@@ -371,6 +374,7 @@ function generateXML() {
             popValue += addAbilspirit;
         } else if (index == "strength") {
             popValue += addAbilstrength;
+            strDie = popValue;
             if (popValue == 0) {
                 encLimit = 20;
             } else if (popValue == 1) {
@@ -382,6 +386,7 @@ function generateXML() {
             } else if (popValue == 4) {
                 encLimit = 100;
             }
+
         } else if (index == "vigor") {
             popValue += addAbilviogor;
         }
@@ -392,17 +397,14 @@ function generateXML() {
         } else if (ourCharData.race == 54 && index == "spirit") {
             popValue += 1;
         }
+        if (index == "vigor") {
+            toughNess += popValue + 4;
+        }
         buildXML += "\t\t<" + index + " type=\"dice\">" + diceNum[popValue] + "</" + index + ">\n";
     });
     
     buildXML += "\t\t<name type=\"string\">" + ourCharData.name + "</name>\n";
     buildXML += "\t\t<advances type=\"number\">" + ourCharData.advancement_count + "</advances>\n";
-    buildXML += "\t\t<encumbered type=\"number\">1</encumbered>\n";
-    buildXML += "\t\t<encumbrance>\n";
-	buildXML += "\t\t\t<limit type=\"number\">" + encLimit + "</limit>\n";
-	buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
-	buildXML += "\t\t\t<loadstr type=\"number\">2</loadstr>\n";
-	buildXML += "\t\t</encumbrance>\n";
     
     var skillCount = 1;
     buildXML += "\t\t<skills>\n";
@@ -628,7 +630,7 @@ function generateXML() {
     var armCount = 1;
     buildXML += "\t\t<armorlist>\n";
     $.each(ourCharData.armor_purchased, function(ardex, arname) {
-        
+        armTotalProt += armValue[arname.id];
         thisIteration = pad(armCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         // Build what this covers
@@ -644,18 +646,40 @@ function generateXML() {
         }
         if (armCoversTorso[arname.id] == true) {
             armCovers += "Torso; ";
+            toughNess += armValue[arname.id];
         }
         //console.log(armName[arname.id] + " covers: " + armCovers);
         //console.log(armName[arname.id] + ": " + armCovers.substring(0, armCovers.length - 2));
         if (armCovers != "") {
             buildXML += "\t\t\t\t<areaprotected type=\"string\">" + armCovers.substring(0, armCovers.length - 2) + "</areaprotected>\n";
-        } else {
-            buildXML += "\t\t\t\t<areaprotected type=\"string\"></areaprotected>\n";
-        }
+        } 
         buildXML += "\t\t\t\t<carried type=\"number\">2</carried>\n";
         buildXML += "\t\t\t\t<cost type=\"string\">" + armCost[arname.id] + "</cost>\n";
         buildXML += "\t\t\t\t<count type=\"number\">" + arname.count_current + "</count>\n";
-        buildXML += "\t\t\t\t<encumbered type=\"number\">1</encumbered>\n";
+        var compareDie = 0;
+        switch(armMinStr[arname.id]) {
+            case "d4":
+                compareDie = 0;
+                break;
+            case "d6":
+                compareDie = 1;
+                break;
+            case "d8":
+                compareDie = 2;
+                break;
+            case "d10":
+                compareDie = 3;
+                break;
+            case "d12":
+                compareDie = 4;
+                break;
+        }
+        //console.log(armName[arname.id] + "; Min: " + compareDie + "; str: " + strDie);
+        if (strDie >= compareDie) {
+            buildXML += "\t\t\t\t<encumbered type=\"number\">0</encumbered>\n";
+        } else {
+            buildXML += "\t\t\t\t<encumbered type=\"number\">2</encumbered>\n";
+        }
         buildXML += "\t\t\t\t<group type=\"string\">" + armType[arname.id].replace(/\&/g, "&amp;") + "</group>\n";
         buildXML += "\t\t\t\t<minstr type=\"string\">" + armMinStr[arname.id] + "</minstr>\n";
         buildXML += "\t\t\t\t<modifications />\n";
@@ -666,6 +690,19 @@ function generateXML() {
         armCount += 1;
     });
     buildXML += "\t\t</armorlist>\n";
+    buildXML += "\t\t<armor type=\"number\">" + armTotalProt + "</armor>\n";
+    buildXML += "\t\t<toughness type=\"number\">" + toughNess + "</toughness>\n";
+    if (encLimit >= encLoad) {
+        buildXML += "\t\t<encumbered type=\"number\">0</encumbered>\n";
+    } else {
+        buildXML += "\t\t<encumbered type=\"number\">1</encumbered>\n";
+    }
+    
+    buildXML += "\t\t<encumbrance>\n";
+	buildXML += "\t\t\t<limit type=\"number\">" + encLimit + "</limit>\n";
+	buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
+	buildXML += "\t\t\t<loadstr type=\"number\">2</loadstr>\n";
+	buildXML += "\t\t</encumbrance>\n";
 
 
     finalXML += startXML + buildXML + endXML;
