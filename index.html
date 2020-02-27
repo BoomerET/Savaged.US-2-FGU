@@ -18,13 +18,16 @@
         <link rel="stylesheet" type="text/css" href="css/app.css">
     </head>
     <body class="container">
-        <h1><center>Savaged.US to Fantasy Grounds converter</center></h1>
-        This utility will convert a <a href="https://savaged.us/">Savaged.US</a> character for use in <a href=https://www.fantasygrounds.com/home/home.php">Fantasy Grounds</a>.
+        <h1><center>Savaged.US to Fantasy Grounds converter</center></h1><hr />
+        <h5>This utility will convert a <a href="https://savaged.us/" target="_blank">Savaged.US</a> character for use in <a href="https://www.fantasygrounds.com/home/home.php" target="_blank">Fantasy Grounds</a>.</h5>
+        To import the resulting XML file into Fantasy Grounds, please watch <a href="https://www.youtube.com/watch?v=Rzd6zPxClFY" target="_blank">this video.</a><br /><br />
+        Log into your Savaged.US account and browse to <a href="https://savaged.us/me/api-key" target="_blank">Settings->API Key</a><br />
+        <br />
         Enter your Savaged.us API key (Only available to Wild Cards)<br />
         <input type="text" id="getUserAPI"></input><br /><br />
         Clicking this button will populate the drop down with your available characters.<br />
-        The 'Select Character' pull-down will become enabled when this is done.<br />
-        <div id="getCharacters">Populate Character drop-down</div><br />
+        <div id="getCharacters">Populate Characters</div><br />
+        This 'Select Character' pull-down will become enabled after you click the 'Populate Characters' button above.<br />
         <div id="popChars"></div>
         <textarea id="textHere"></textarea><br />
         <button id="dlChar">Download XML</button>&nbsp;&nbsp;<button id="resetChar">Reset ALL</button><br /><br />
