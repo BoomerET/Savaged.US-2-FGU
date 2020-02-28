@@ -240,13 +240,21 @@ $(function() {
 function populateChars(inputChar) {
     characters = jQuery.extend(true, {}, inputChar);
     //var charCount = 0;
+    
     for (var key in characters) {
         if (characters.hasOwnProperty(key)) {
             //console.log(key + "-> " +character[key].id);
             if (characters[key].deleted == false && characters[key].save_type == "character") {
                 $("#popChars").jqxDropDownList('addItem', characters[key].name + " (" + characters[key].id + ")" );
             }
+        } else {
+            alert("We couldn't find any characters, check your API key.");
         }
+    }
+    var numItems = $("#popChars").jqxDropDownList('getItems');
+    if (typeof numItems == 'undefined') {
+        alert("Either your API key is incorrect, or you don't have any active characters.");
+        return(0);
     }
     $.ajax({
         url:  "https://savaged.us/_api/chargen-data",
