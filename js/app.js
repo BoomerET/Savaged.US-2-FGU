@@ -1,10 +1,7 @@
 /*jshint esversion: 6 */
 /*jshint multistr: true */
 
-//var charSource = [];
 var characters;
-var attributes = ["agility", "smarts", "spirit", "strength", "vigor"];
-var attributesDie = [0, 0, 0, 0, 0];
 var coreSkills = ["Athletics", "Common Knowledge", "Notice", "Persuasion", "Stealth"];
 var coreSkillsDie = [0, 0, 0, 0, 0];
 var diceNum = ["d4", "d6", "d8", "d10", "d12"];
@@ -34,26 +31,8 @@ var savageData = [];
 var hindranceArray = [];
 var edgeArray01 = [];
 var edgeArray02 = [];
-var edgeArray03 = [];
-var edgeArray04 = [];
-var edgeArray05 = [];
-var edgeArray06 = [];
-var edgeArray07 = [];
-var edgeArray08 = [];
-var edgeArray09 = [];
-var edgeArray10 = [];
-var edgeArray11 = [];
-var edgeArray12 = [];
-var edgeArray13 = [];
-var edgeArray14 = [];
 
 var savageEdges = [];
-
-//var addAbilAg = 0;
-//var addAbilSm = 0;
-//var addAbilSp = 0;
-//var addAbilSt = 0;
-//var addAbilVi = 0;
 
 var encLimit = 0;
 var encLoad = 0;
@@ -123,47 +102,33 @@ savageData[54] = "Half-Folk";
 savageData[55] = "Rakashan";
 savageData[56] = "Saurian";
 
-for (z = 57; z < 102; z++) {
+for (var z = 57; z < 102; z++) {
     savageData[z] = "";
 }
 
 hindranceArray = ["Bad Eyes","All Thumbs","Anemic","Arrogant","Bad Luck","Big Mouth","Blind","Bloodthirsty","Can't Swim","Cautious","Clueless","Clumsy","Code of Honor","Curious","Death Wish","Delusional","Doubting Thomas","Driven","Elderly","Enemy","Greedy","Habit","Hard of Hearing","Heroic","Hesitant","Illiterate","Impulsive","Jealous","Loyal","Mean","Mild Mannered","Mute","Obese","Obligation","One Arm","One Eye","Outsider","Overconfident","Pacifist","Phobia","Poverty","Quirk","Ruthless","Secret","Shamed","Slow","Small","Stubborn","Suspicious","UNKNOWN","Tongue-Tied","Ugly","Vengeful","Vow","Wanted","Yellow","Young","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","Thin Skinned"];
-//hindranceArray.push("Thin Skinned");
 
 savageData = savageData.concat(hindranceArray);
 
-for (w = 0; w < 171; w++) {
+for (var w = 0; w < 171; w++) {
     savageEdges[w] = "UNKNOWN";
 }
 
-edgeArray01 = ["Alertness","Ambidextrous","Arcane Background","Arcane Resistance","Improved Arcane Resistance","Aristocrat","Attractive"];
-edgeArray02 = ["Very Attractive","Berserk","Brave","Brawny","Brute","Charismatic","Elan","Fame","Famous","Fleet-Footed","Linguist","Luck"];
-edgeArray03 = ["Great Luck","Quick","Rich","Filthy Rich","Fast Healer","Block","Improved Block","Brawler","Bruiser","Calculating","Combat Reflexes"];
-edgeArray04 = ["Counterattack","Improved Counterattack","Dead Shot","Dodge","Improved Dodge","Double Tap","Extraction","Improved Extraction","Feint"];
-edgeArray05 = ["First Strike","Improved First Strike","Free Runner","Frenzy","Improved Frenzy","Giant Killer","Hard to Kill","Harder to Kill","Improvisational Fighter"];
-edgeArray06 = ["Iron Jaw","Killer Instinct","Level Headed","Improved Level Headed","Marksman","Martial Artist","Martial Warrior","Mighty Blow","Nerves of Steel"];
-edgeArray07 = ["Improved Nerves of Steel","No Mercy","UNKNOWN","UNKNOWN","Rapid Fire","Improved Rapid Fire","Rock and Roll!","Steady Hands","Sweep","Improved Sweep"];
-edgeArray08 = ["Trademark Weapon","Improved Trademark Weapon","Two-Fisted","Two-Gun Kid","Command","Command Presence","Fervor","Hold the Line","Inspire"];
-edgeArray09 = ["Natural Leader","Tactician","Master Tactician","Artificer","Channeling","Concentration","Extra Effort","Gadgeteer","Holy/Unholy Warrior","Mentalist"];
-edgeArray10 = ["New Powers","Power Points","Rapid Recharge","Improved Rapid Recharge","Soul Drain","Power Surge","Wizard","Bolster","Common Bond","Connections"];
-edgeArray11 = ["Humiliate","Menacing","Provoke","Retort","Streetwise","Strong Willed","Iron Will","Work the Room","Work the Crowd","Beast Bond","Beast Master"];
-edgeArray12 = ["Champion","Chi","Danger Sense","Healer","Liquid Courage","Scavenger","Followers","Professional","Expert","Master","Sidekick","Tough as Nails"];
-edgeArray13 = ["Tougher than Nails","Weapon Master","Master of Arms","Ace","Acrobat","Investigator","Assassin","Jack-of-all-Trades","McGyver","Mr. Fix It","Scholar"];
-edgeArray14 = ["Thief","Woodsman","Soldier","Gadgeteer","Combat Acrobat"];
+edgeArray01 = ["Alertness","Ambidextrous","Arcane Background","Arcane Resistance","Improved Arcane Resistance","Aristocrat","Attractive", "Very Attractive","Berserk","Brave","Brawny","Brute","Charismatic","Elan","Fame","Famous","Fleet-Footed","Linguist","Luck", "Great Luck","Quick","Rich","Filthy Rich","Fast Healer","Block","Improved Block","Brawler","Bruiser","Calculating","Combat Reflexes", "Counterattack","Improved Counterattack","Dead Shot","Dodge","Improved Dodge","Double Tap","Extraction","Improved Extraction","Feint", "First Strike","Improved First Strike","Free Runner","Frenzy","Improved Frenzy","Giant Killer","Hard to Kill","Harder to Kill","Improvisational Fighter", "Iron Jaw","Killer Instinct","Level Headed","Improved Level Headed","Marksman","Martial Artist","Martial Warrior","Mighty Blow","Nerves of Steel"];
+edgeArray02 = ["Improved Nerves of Steel","No Mercy","UNKNOWN","UNKNOWN","Rapid Fire","Improved Rapid Fire","Rock and Roll!","Steady Hands","Sweep","Improved Sweep", "Trademark Weapon","Improved Trademark Weapon","Two-Fisted","Two-Gun Kid","Command","Command Presence","Fervor","Hold the Line","Inspire", "Natural Leader","Tactician","Master Tactician","Artificer","Channeling","Concentration","Extra Effort","Gadgeteer","Holy/Unholy Warrior","Mentalist", "New Powers","Power Points","Rapid Recharge","Improved Rapid Recharge","Soul Drain","Power Surge","Wizard","Bolster","Common Bond","Connections", "Humiliate","Menacing","Provoke","Retort","Streetwise","Strong Willed","Iron Will","Work the Room","Work the Crowd","Beast Bond","Beast Master", "Champion","Chi","Danger Sense","Healer","Liquid Courage","Scavenger","Followers","Professional","Expert","Master","Sidekick","Tough as Nails", "Tougher than Nails","Weapon Master","Master of Arms","Ace","Acrobat","Investigator","Assassin","Jack-of-all-Trades","McGyver","Mr. Fix It","Scholar", "Thief","Woodsman","Soldier","Gadgeteer","Combat Acrobat"];
 
-let savageEdgesFinal = [...savageEdges, ...edgeArray01, ...edgeArray02, ...edgeArray03, ...edgeArray04, ...edgeArray05, ...edgeArray06, ...edgeArray07, ...edgeArray08, ...edgeArray09, ...edgeArray10, ...edgeArray11, ...edgeArray12, ...edgeArray13, ...edgeArray14];
-for (v = 306; v < 342; v++) {
+let savageEdgesFinal = [...savageEdges, ...edgeArray01, ...edgeArray02];
+for (var v = 306; v < 342; v++) {
     savageEdgesFinal[v] = "UNKNOWN";
 }
 
 savageEdgesFinal.push("Rabble-Rouse");
-for(u = 343; u < 378; u++) {
+for(var u = 343; u < 378; u++) {
     savageEdgesFinal[u] = "UNKNOWN";
 }
 savageEdgesFinal.push("Reliable");
 
 $(function() {
-    //console.log("Index of thin skinned: " +savageData.indexOf("Thin Skinned"));
     $("#getUserAPI").jqxInput({placeHolder: "Enter API key", height: 30, width: 500, minLength: 1, theme: 'darkblue' });
     $("#getCharacters").jqxButton({ width: 240, height: 20, theme: 'darkblue'});
     $("#popChars").jqxDropDownList({ placeHolder: "Select Character", width: 250, height: 30, theme: 'darkblue', disabled: true });
@@ -177,7 +142,6 @@ $(function() {
         if (apiKey == "" || apiKey.length < 50) {
             alert("Invalid API key");
         } else {
-            //var url = "https://savaged.us/_api/auth/get-saves";
             $.ajax({
                 url:  "https://savaged.us/_api/auth/get-saves",
                 method: "POST",
@@ -206,8 +170,7 @@ $(function() {
             var charID = value.match(/\(([^)]+)\)/)[1];
             for (var key in characters) {
                 if (characters[key].id == charID) {
-                    //console.log("Parsing: " + characters[key].name);
-                     ourCharData = $.parseJSON(characters[key].data);
+                    ourCharData = $.parseJSON(characters[key].data);
                 }
             }
             generateXML();
@@ -239,11 +202,9 @@ $(function() {
 
 function populateChars(inputChar) {
     characters = jQuery.extend(true, {}, inputChar);
-    //var charCount = 0;
-    
+
     for (var key in characters) {
         if (characters.hasOwnProperty(key)) {
-            //console.log(key + "-> " +character[key].id);
             if (characters[key].deleted == false && characters[key].save_type == "character") {
                 $("#popChars").jqxDropDownList('addItem', characters[key].name + " (" + characters[key].id + ")" );
             }
@@ -273,9 +234,7 @@ function populateChars(inputChar) {
 }
 
 function generateXML() {
-    // Generate gear hash
     $.each(charGenData.gear, function(gdex, gName) {
-        //console.log(gName);
         if (gName.book_id == 9) {
             gearName[gName.id] = gName.name;
             gearGroup[gName.id] = gName.type;
@@ -286,7 +245,6 @@ function generateXML() {
     });
 
     $.each(charGenData.weapons, function(wdex, wName) {
-        //console.log(gName);
         if (wName.book_id == 9) {
             weapName[wName.id] = wName.name;
             weapGroup[wName.id] = wName.type;
@@ -334,18 +292,16 @@ function generateXML() {
         }
     });
     $.each(ourCharData.advancements, function(charIdx, charAdv) {
-        //console.log(charAdv.type);
         if (charAdv.type == "attribute") {
-            // Let's try an eval to go through all 13
-            for (nx = 1; nx < 14; nx++) {
+            for (var nx = 1; nx < 14; nx++) {
                 var tempName = eval("charAdv.target" + nx);
                 if (tempName != "") {
                     eval("addAbil" + tempName + " += 1 ");
                 }
             }
         } else if (charAdv.type == 'raise_skill_above') {
-            for (nx = 1; nx < 14; nx++) {
-                var tempName2 = eval("charAdv.target" + nx);
+            for (var ny = 1; ny < 14; ny++) {
+                var tempName2 = eval("charAdv.target" + ny);
                 if (tempName2 != "") {
                     var getIdx = skillList.indexOf(tempName2);
                     if (getIdx != -1) {
@@ -354,22 +310,20 @@ function generateXML() {
                 }
             }
         } else if (charAdv.type == 'edge') {
-            for (nx = 1; nx < 14; nx++) {
-                var tempName4 = eval("charAdv.target" + nx);
+            for (var nz = 1; nz < 14; nz++) {
+                var tempName4 = eval("charAdv.target" + nz);
                 if (tempName4 != "") {
-                    //console.log("Edge: " + savageEdgesFinal[tempName4]);
                     ourEdges.push(savageEdgesFinal[tempName4]);
                 }
             }
         } else if (charAdv.type == 'swade_raise_skills_below') {
-            for (nx = 1; nx < 14; nx++) {
-                var tempName3 = eval("charAdv.target" + nx);
+            for (var nw = 1; nw < 14; nw++) {
+                var tempName3 = eval("charAdv.target" + nw);
                 if (tempName3 != "") {
                     var getIdx2 = skillList.indexOf(tempName3);
                     if (getIdx2 != -1) {
                         skillListDie[getIdx2] += 1;
                     } else {
-                        // We need to add this to the skills list
                         skillList.push(tempName3);
                         skillListDie.push(0);
                     }
@@ -378,7 +332,6 @@ function generateXML() {
         }
     });
     $.each(ourCharData.attribute_assignments, function( index, value) {
-        //console.log("Index: " + index + "; " + value);
         var popValue = value;
         if (index == "agility") {
             popValue += addAbilagility;
@@ -426,7 +379,7 @@ function generateXML() {
         if (skillList[x] == "Fighting") {
             fightDie =  (2 * parseInt(skillListDie[x]) + 4);
         }
-        thisIteration = pad(skillCount, 5);
+        var thisIteration = pad(skillCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
         buildXML += "\t\t\t\t\t<class>sw_referenceskill</class>\n";
@@ -523,10 +476,10 @@ function generateXML() {
             break;
     }
     buildXML += "\t\t<gender type=\"string\">" + ourCharData.gender + "</gender>\n";
-    hindCount = 1;
+    var hindCount = 1;
     buildXML += "\t\t<hindrances>\n";
     $.each(ourCharData.hindrances, function(hdex, hindData) {
-        thisIteration = pad(hindCount, 5);
+        var thisIteration = pad(hindCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         if (hindData.major == false) {
             buildXML += "\t\t\t\t<name type=\"string\">" + savageData[hindData.id] + "</name>\n";
@@ -541,11 +494,10 @@ function generateXML() {
         hindCount += 1;
     });
     buildXML += "\t\t</hindrances>\n";
-    edgeCount = 1;
+    var edgeCount = 1;
     buildXML += "\t\t<edges>\n";
     $.each(ourCharData.edges, function(edex, edgeData) {
-        //console.log(edgeData.id + ": " + savageEdgesFinal[edgeData.id]);
-        thisIteration = pad(edgeCount, 5);
+        var thisIteration = pad(edgeCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + savageEdgesFinal[edgeData.id] + "</name>\n";
         buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
@@ -556,8 +508,7 @@ function generateXML() {
         edgeCount += 1;
     });
     $.each(ourEdges, function(eNum, eName) {
-        //console.log(eName);
-        thisIteration = pad(edgeCount, 5);
+        var thisIteration = pad(edgeCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + eName + "</name>\n";
         buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
@@ -573,7 +524,7 @@ function generateXML() {
     var gearCount = 1;
     buildXML += "\t\t<invlist>\n";
     $.each(ourCharData.gear_purchased, function(gpdex, gpname) {
-        thisIteration = pad(gearCount, 5);
+        var thisIteration = pad(gearCount, 5);
         
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + fixGear(gearName[gpname.id]) + "</name>\n";
@@ -598,7 +549,7 @@ function generateXML() {
     var weapCount = 1;
     buildXML += "\t\t<weaponlist>\n";
     $.each(ourCharData.weapons_purchased, function(wpdex, wpname) {
-        thisIteration = pad(weapCount, 5);
+        var thisIteration = pad(weapCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + fixGear(weapName[wpname.id]) + "</name>\n";
         buildXML += "\t\t\t\t<cost type=\"string\">" + weapCost[wpname.id] + "</cost>\n";
@@ -641,16 +592,12 @@ function generateXML() {
     });
     buildXML += "\t\t</weaponlist>\n";
 
-
-    // FIXME: Shield does not count towards toughness
-
     var armCount = 1;
     buildXML += "\t\t<armorlist>\n";
     $.each(ourCharData.armor_purchased, function(ardex, arname) {
         armTotalProt += armValue[arname.id];
-        thisIteration = pad(armCount, 5);
+        var thisIteration = pad(armCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
-        // Build what this covers
         var armCovers = "";
         if (armCoversArms[arname.id] == true) {
             armCovers += "Arms; ";
@@ -665,8 +612,6 @@ function generateXML() {
             armCovers += "Torso; ";
             toughNess += armValue[arname.id];
         }
-        //console.log(armName[arname.id] + " covers: " + armCovers);
-        //console.log(armName[arname.id] + ": " + armCovers.substring(0, armCovers.length - 2));
         if (armCovers != "") {
             buildXML += "\t\t\t\t<areaprotected type=\"string\">" + armCovers.substring(0, armCovers.length - 2) + "</areaprotected>\n";
         } 
@@ -691,7 +636,6 @@ function generateXML() {
                 compareDie = 4;
                 break;
         }
-        //console.log(armName[arname.id] + "; Min: " + compareDie + "; str: " + strDie);
         if (strDie >= compareDie) {
             buildXML += "\t\t\t\t<encumbered type=\"number\">0</encumbered>\n";
         } else {
@@ -705,9 +649,8 @@ function generateXML() {
         if (armShield[arname.id] != true) {
             buildXML += "\t\t\t\t<protection type=\"number\">" + armValue[arname.id] + "</protection>\n";
         } else {
-            // FIXME, add parry/cover for shield.
             var tempNotes = "";
-            tempNotes += "[Parry +" + armShieldParry[arname.id] + ", Cover +" + Math.abs(armShieldCover[arname.id]) + "]\n";
+            tempNotes += "[Parry +" + armShieldParry[arname.id] + ", Cover +" + Math.abs(armShieldCover[arname.id]) + "]";
             buildXML += "\t\t\t\t<notes type=\"string\">" + tempNotes + "</notes>\n";
         }
         buildXML += "\t\t\t</id-" + thisIteration + ">\n";
@@ -724,7 +667,9 @@ function generateXML() {
     
     buildXML += "\t\t<encumbrance>\n";
 	buildXML += "\t\t\t<limit type=\"number\">" + encLimit + "</limit>\n";
-	buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
+    buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
+    
+    // FIXME: Why is this hard-coded to '2'
 	buildXML += "\t\t\t<loadstr type=\"number\">2</loadstr>\n";
     buildXML += "\t\t</encumbrance>\n";
     
