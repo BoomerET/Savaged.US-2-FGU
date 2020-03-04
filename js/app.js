@@ -201,6 +201,7 @@ $(function() {
 });
 
 function populateChars(inputChar) {
+    //console.log(inputChar);
     characters = jQuery.extend(true, {}, inputChar);
 
     for (var key in characters) {
@@ -278,7 +279,7 @@ function generateXML() {
             armShieldCover[aName.id] = aName.shield_cover_vs_ranged;
         }
     });
-
+console.log(ourCharData);
     $.each(ourCharData.skill_assignments, function(index, skill) {
         if (skillList.includes(skill.name)) {
             var a = skillList.indexOf(skill.name);
