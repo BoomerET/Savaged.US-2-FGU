@@ -26,6 +26,7 @@ var fightDie = -1;
 var apiKey = "";
 var toughNess = 0;
 
+var brawnySolder = 0;
 
 var savageData = [];
 var hindranceArray = [];
@@ -279,7 +280,6 @@ function generateXML() {
             armShieldCover[aName.id] = aName.shield_cover_vs_ranged;
         }
     });
-console.log(ourCharData);
     $.each(ourCharData.skill_assignments, function(index, skill) {
         if (skillList.includes(skill.name)) {
             var a = skillList.indexOf(skill.name);
@@ -500,6 +500,9 @@ console.log(ourCharData);
     $.each(ourCharData.edges, function(edex, edgeData) {
         var thisIteration = pad(edgeCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
+        if (edgeData.id == 181 || edgeData.id == 303) {
+            brawnySolder += 1;
+        }
         buildXML += "\t\t\t\t<name type=\"string\">" + savageEdgesFinal[edgeData.id] + "</name>\n";
         buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
         buildXML += "\t\t\t\t<class>sw_referencefeat</class>\n";
@@ -510,6 +513,11 @@ console.log(ourCharData);
     });
     $.each(ourEdges, function(eNum, eName) {
         var thisIteration = pad(edgeCount, 5);
+        //console.log("Edges - Advances");
+        //console.log(eName);
+        if (eName == "Brawny" || eName == "Soldier") {
+            brawnySolder += 1;
+        }
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + eName + "</name>\n";
         buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
@@ -670,8 +678,9 @@ console.log(ourCharData);
 	buildXML += "\t\t\t<limit type=\"number\">" + encLimit + "</limit>\n";
     buildXML += "\t\t\t<load type=\"number\">" + encLoad + "</load>\n";
     
-    // FIXME: Why is this hard-coded to '2'
-	buildXML += "\t\t\t<loadstr type=\"number\">2</loadstr>\n";
+    var loadStr = 2 + strDie + brawnySolder;
+    
+    buildXML += "\t\t\t<loadstr type=\"number\">" + loadStr + "</loadstr>\n";
     buildXML += "\t\t</encumbrance>\n";
     
     buildXML += "\t\t<bonuslist>\n";
