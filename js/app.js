@@ -19,6 +19,8 @@ var pcFilename = "";
 var skillList = coreSkills;
 var skillListDie = coreSkillsDie;
 
+var addToughBonus = 0;
+
 var ourCharData = "";
 var charGenData = "";
 
@@ -168,7 +170,7 @@ $(function() {
         if (args) {
             var item = args.item;
             var value = item.value;
-            var charID = value.match(/\(([^)]+)\)/)[1];
+            var charID = value.match(/\(([^)]+)\)$/)[0].replace(/\(/g, "").replace(/\)/g, "");
             for (var key in characters) {
                 if (characters[key].id == charID) {
                     ourCharData = $.parseJSON(characters[key].data);
@@ -202,7 +204,6 @@ $(function() {
 });
 
 function populateChars(inputChar) {
-    //console.log(inputChar);
     characters = jQuery.extend(true, {}, inputChar);
 
     for (var key in characters) {
@@ -368,11 +369,25 @@ function generateXML() {
         if (index == "vigor") {
             toughNess += popValue + 4;
         }
-        buildXML += "\t\t<" + index + " type=\"dice\">" + diceNum[popValue] + "</" + index + ">\n";
+        if (popValue <= 4) {
+            buildXML += "\t\t<" + index + " type=\"dice\">" + diceNum[popValue] + "</" + index + ">\n";
+        } else {
+            var thisMod = popValue - 4;
+            buildXML += "\t\t<" + index + " type=\"dice\">d12</" + index + ">\n";
+            buildXML += "\t\t<" + index + "Mod type=\"number\">" + thisMod + "</" + index + "Mod>\n";
+        }
+        
     });
-    
-    buildXML += "\t\t<name type=\"string\">" + ourCharData.name + "</name>\n";
-    buildXML += "\t\t<advances type=\"number\">" + ourCharData.advancement_count + "</advances>\n";
+    if (typeof ourCharData.name === "undefined") {
+        buildXML += "\t\t<name type=\"string\">Placeholder - Unable to parse name</name>\n";
+    } else {
+        buildXML += "\t\t<name type=\"string\">" + ourCharData.name + "</name>\n";
+    }
+    if (typeof ourCharData.advancement_count === "undefined") {
+        buildXML += "\t\t<advances type=\"number\">0</advances>\n";
+    } else {
+        buildXML += "\t\t<advances type=\"number\">" + ourCharData.advancement_count + "</advances>\n";
+    }
     
     var skillCount = 1;
     buildXML += "\t\t<skills>\n";
@@ -501,6 +516,10 @@ function generateXML() {
         var thisIteration = pad(edgeCount, 5);
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         if (edgeData.id == 181 || edgeData.id == 303) {
+            if (edgeData.id == 181) {
+                toughNess += 1;
+                addToughBonus = 1;
+            }
             brawnySolder += 1;
         }
         buildXML += "\t\t\t\t<name type=\"string\">" + savageEdgesFinal[edgeData.id] + "</name>\n";
@@ -513,11 +532,15 @@ function generateXML() {
     });
     $.each(ourEdges, function(eNum, eName) {
         var thisIteration = pad(edgeCount, 5);
-        //console.log("Edges - Advances");
-        //console.log(eName);
         if (eName == "Brawny" || eName == "Soldier") {
+            if (eName == "Brawny") {
+                toughNess += 1;
+                addToughBonus = 1;
+            }
             brawnySolder += 1;
         }
+
+
         buildXML += "\t\t\t<id-" + thisIteration + ">\n";
         buildXML += "\t\t\t\t<name type=\"string\">" + eName + "</name>\n";
         buildXML += "\t\t\t\t<link type=\"windowreference\">\n";
@@ -702,13 +725,28 @@ function generateXML() {
     buildXML += "\t\t\t</toughness>\n";
     buildXML += "\t\t\t<vigor>\n";
     buildXML += "\t\t\t</vigor>\n";
+    if (addToughBonus == 1) {
+        buildXML += "\t\t\t<toughness>\n";
+        buildXML += "\t\t\t\t<id-00001>\n";
+        buildXML += "\t\t\t\t\t<bonus type=\"number\">1</bonus>\n";
+        buildXML += "\t\t\t\t\t<enabled type=\"number\">1</enabled>\n";
+        buildXML += "\t\t\t\t\t<name type=\"string\">Brawny</name>\n";
+        buildXML += "\t\t\t\t\t<readonly type=\"number\">0</readonly>\n";
+        buildXML += "\t\t\t\t</id-00001>\n";
+        buildXML += "\t\t\t</toughness>\n";
+    }
     buildXML += "\t\t</bonuslist>\n";
+    buildXML += "\t\t<wildcard type=\"number\">1</wildcard>\n";
 
 
     finalXML += startXML + buildXML + endXML;
     
     $('#textHere').val(finalXML);
-    pcFilename = ourCharData.name.replace(/\W/g, '');
+    if (typeof ourCharData.name === "undefined") {
+        pcFilename = "Placeholder - Choose a better name";
+    } else {
+        pcFilename = ourCharData.name.replace(/\W/g, '');
+    }
     $("#dlChar").jqxButton({ disabled: false });
 }
 
